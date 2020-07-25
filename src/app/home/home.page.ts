@@ -10,26 +10,28 @@ import { ShareService } from '../share/share';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  usuario:string;
-  senha:string;
+  usuario: string;
+  senha: string;
 
-  constructor(public navCtrl: NavController, public share:ShareService, public toastCtrl: ToastController, 
-   public loadingCtrl: LoadingController) { 
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController, public share: ShareService) {
 
   }
 
-  Login(){
-    let loader = this.loadingCtrl.create({    
+  Login() {
+    let loader = this.loadingCtrl.create({
       message: "Please wait..."
     });
-    this.share.login(this.usuario, this.senha).subscribe(async data=>{
-      if(data==null){
+   // this.share.login(this.usuario, this.senha).subscribe(async data => {
+      this.share.login().subscribe(async data => {
+      console.log(data);
+      if (data == null) {
         let toast = await this.toastCtrl.create({
           message: 'Fail !!!',
           duration: 2000
         });
         toast.present();
-      }else{
+      } else {
         let toast = await this.toastCtrl.create({
           message: 'User was added sucessfully',
           duration: 2000
